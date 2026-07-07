@@ -1,0 +1,29 @@
+#!/usr/bin/make -f
+
+export PYBUILD_NAME=mistralai
+export PYBUILD_SYSTEM=pyproject
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+# NOTE on the opentelemetry-semantic-conventions pin:
+# Upstream pyproject.toml pins
+#   opentelemetry-semantic-conventions (>=0.60b1,<0.61)
+# but the Debian package actually available/built for this archive is
+# python3-opentelemetry-semantic-conventions 0.64b0-1 (packaged separately,
+# see the eval-type-backport/jsonpath-python siblings). 0.64b0 violates the
+# upstream "<0.61" upper bound. mistralai only uses this package for a small,
+# stable surface of semantic-convention constant names (span/attribute
+# name constants), which have not broken across 0.60->0.64 releases, so we
+# relax the upper bound here at build time rather than patch application
+# code. We do NOT bump the lower bound - 0.60b1 remains the floor.
+override_dh_auto_configure:
+	sed -i 's/opentelemetry-semantic-conventions (>=0.60b1,<0.61)/opentelemetry-semantic-conventions (>=0.60b1)/' pyproject.toml
+	dh_auto_configure
+
+override_dh_auto_clean:
+	dh_auto_clean
+	git checkout pyproject.toml 2>/dev/null || true
+
+override_dh_auto_test:
+	# Skip tests - test dependencies (pytest, respx, etc.) are not packaged

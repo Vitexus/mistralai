@@ -1,0 +1,4 @@
+eval_type_backport python3-eval-type-backport
+jsonpath_python python3-jsonpath-python
+opentelemetry_semantic_conventions python3-opentelemetry-semantic-conventions
+typing_inspection python3-typing-inspection

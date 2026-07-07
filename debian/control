@@ -1,0 +1,39 @@
+Source: mistralai
+Section: python
+Priority: optional
+Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ pybuild-plugin-pyproject,
+ python3-all,
+ python3-hatchling,
+Standards-Version: 4.7.0
+Homepage: https://github.com/mistralai/client-python
+Vcs-Git: https://github.com/Vitexus/client-python.git
+Vcs-Browser: https://github.com/Vitexus/client-python
+Rules-Requires-Root: no
+
+Package: python3-mistralai
+Architecture: all
+Multi-Arch: foreign
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ python3-eval-type-backport (>= 0.2.0),
+ python3-httpx (>= 0.28.1),
+ python3-jsonpath-python (>= 1.0.6),
+ python3-opentelemetry-api (>= 1.33.1),
+ python3-opentelemetry-semantic-conventions (>= 0.60~b1),
+ python3-pydantic (>= 2.11.2),
+ python3-dateutil (>= 2.8.2),
+ python3-typing-inspection (>= 0.4.0),
+Description: Python Client SDK for the Mistral AI API
+ mistralai is the official Python client library for the Mistral AI
+ platform API, providing typed access to chat completions, embeddings,
+ fine-tuning, agents, and other Mistral AI services.
+ .
+ This package provides the base runtime (chat, embeddings, files, OCR,
+ fine-tuning, etc.); optional extras for GCP/Azure auth, agents (MCP),
+ realtime (websockets) and telemetry export are not packaged and require
+ their dependencies to be installed separately via pip if needed.
